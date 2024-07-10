@@ -10,6 +10,12 @@ function Provider({ children }) {
   const NewData = (event) => {
     setdata([...data, event]);
   };
+  const editData = (title, updatedContent) => {
+    const updatedData = data.map((post) =>
+      post.title === title ? { ...post, content: updatedContent } : post
+    );
+    setdata(updatedData);
+  };
   const deleteData = (event) => {
     setdata(event);
   };
@@ -17,6 +23,7 @@ function Provider({ children }) {
     data,
     NewData,
     deleteData,
+    editData,
   };
   return (
     <DataContext.Provider value={valueToShare}>{children}</DataContext.Provider>

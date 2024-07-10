@@ -11,9 +11,9 @@ const Blogcontent = () => {
   const { content, title } = location.state;
   const [showModal, setShowModal] = useState(false);
   const [newUpdated, setNewUpdated] = useState(content);
+  const [count, setCount] = useState(0);
 
-  const { data } = useContext(DataContext);
-  const { deleteData } = useContext(DataContext);
+  const { deleteData, data, editData } = useContext(DataContext);
 
   //Edit
   const handleEdit = () => {
@@ -27,26 +27,35 @@ const Blogcontent = () => {
   const updatedContent = (event) => {
     setShowModal(!showModal);
     setNewUpdated(event);
-    console.log(newUpdated);
+    editData(title, event);
+
+    // console.log(newUpdated);
   };
   //open modal to edit
   const modal = (
-    <Editblog
-      showModal={showModal}
-      OnClickClose={OnClickClose}
-      updatedContent={updatedContent}
-    >
+    <Editblog OnClickClose={OnClickClose} updatedContent={updatedContent}>
       {newUpdated}
     </Editblog>
   );
 
   //delete blog feature
   const handleDelete = () => {
-    const newdata = data.filter((ele) => {
-      return ele.title !== title;
-    });
-    deleteData(newdata);
-    navigate("/");
+    // const newdata = data.filter((ele) => {
+    //   return ele.title !== title;
+    // });
+    // deleteData(newdata);
+    // navigate("/");
+    if (window.confirm("Are you sure you want to delete this blog post?")) {
+      const newdata = data.filter((ele) => {
+        return ele.title !== title;
+      });
+      deleteData(newdata);
+      navigate("/");
+    }
+  };
+
+  const handleCount = () => {
+    setCount(count + 1);
   };
 
   return (
@@ -54,8 +63,14 @@ const Blogcontent = () => {
       <div className="m-3 flex justify-between items-center">
         <Navigation />
         <div className="m-2 p-2 gap-5 flex justify-around items-center">
-          <button className="m-1 py-1 px-3 border border-black rounded">
-            Like
+          <button
+            className="m-1 py-1 px-3 border border-black rounded flex justify-around items-center gap-2 "
+            onClick={handleCount}
+          >
+            Like{" "}
+            <span className="border border-black rounded-full px-1 font-thin text-xs">
+              {count}
+            </span>
           </button>
           <button
             className="m-1 py-1 px-3 border border-black rounded"

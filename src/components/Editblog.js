@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import ReactDOM from "react-dom";
 
-function Editblog({ OnClickClose, showModal, children, updatedContent }) {
+function Editblog({ OnClickClose, children, updatedContent }) {
   const [term, setTerm] = useState(null);
   const [newContent, setNewcontent] = useState(children);
   // close
